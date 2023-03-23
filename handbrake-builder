@@ -11,15 +11,16 @@ wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools
 chmod a+x ./appimagetool ./pkg2appimage
 
 # CREATING THE APPIMAGE: APPDIR FROM A RECIPE...
+PREVIOUSLTS=$(wget -q https://releases.ubuntu.com/ -O - | grep class | grep LTS | grep -m2 href | tail -n1 | sed -n 's/.*href="\([^"]*\).*/\1/p' | rev| cut -c 2- | rev)
 echo "app: handbrake
 binpatch: true
 
 ingredients:
-  dist: focal
+  dist: $PREVIOUSLTS
   package: handbrake
   sources:
-    - deb http://archive.ubuntu.com/ubuntu focal main universe
-    - deb http://security.ubuntu.com/ubuntu focal-security main universe
+    - deb http://archive.ubuntu.com/ubuntu $PREVIOUSLTS main universe
+    - deb http://security.ubuntu.com/ubuntu $PREVIOUSLTS-security main universe
   ppas: 
     - savoury1/ffmpeg4
     - savoury1/ffmpeg5
