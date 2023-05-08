@@ -22,8 +22,7 @@ ingredients:
     - deb http://archive.ubuntu.com/ubuntu $PREVIOUSLTS main universe
     - deb http://security.ubuntu.com/ubuntu $PREVIOUSLTS-security main universe
   ppas: 
-    - savoury1/ffmpeg4
-    - savoury1/ffmpeg5
+    - savoury1/ffmpeg6
     - savoury1/handbrake
     - savoury1/build-tools
     - savoury1/backports
