@@ -21,6 +21,8 @@ ingredients:
   sources:
     - deb http://archive.ubuntu.com/ubuntu $PREVIOUSLTS main universe
     - deb http://security.ubuntu.com/ubuntu $PREVIOUSLTS-security main universe
+    - deb http://ftp.de.debian.org/debian sid main
+    - deb https://www.deb-multimedia.org sid main non-free
   ppas: 
     - savoury1/ffmpeg6
     - savoury1/handbrake
@@ -28,6 +30,10 @@ ingredients:
     - savoury1/backports
     - savoury1/graphics
     - savoury1/multimedia
+  packages:
+    - handbrake
+    - libvpl-dev
+    - vapoursynth-dev
   
 script:
   - cp -Rf ./usr/share/applications/fr.handbrake.ghb.desktop .
