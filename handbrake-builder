@@ -11,25 +11,16 @@ wget https://raw.githubusercontent.com/ivan-hc/AM-application-manager/main/tools
 chmod a+x ./appimagetool ./pkg2appimage
 
 # CREATING THE APPIMAGE: APPDIR FROM A RECIPE...
-PREVIOUSLTS=$(wget -q https://releases.ubuntu.com/ -O - | grep class | grep LTS | grep -m2 href | tail -n1 | sed -n 's/.*href="\([^"]*\).*/\1/p' | rev| cut -c 2- | rev)
 echo "app: handbrake
 binpatch: true
 
 ingredients:
-  dist: $PREVIOUSLTS
+  dist: stable
   package: handbrake
   sources:
-    - deb http://archive.ubuntu.com/ubuntu $PREVIOUSLTS main universe
-    - deb http://security.ubuntu.com/ubuntu $PREVIOUSLTS-security main universe
-    - deb http://ftp.de.debian.org/debian sid main
-    - deb https://www.deb-multimedia.org sid main non-free
-  ppas: 
-    - savoury1/ffmpeg6
-    - savoury1/handbrake
-    - savoury1/build-tools
-    - savoury1/backports
-    - savoury1/graphics
-    - savoury1/multimedia
+    - deb http://ftp.debian.org/debian/ stable main contrib non-free
+    - deb http://security.debian.org/debian-security/ stable-security main contrib non-free
+    - deb http://ftp.debian.org/debian/ stable-updates main contrib non-free
   packages:
     - handbrake
     - libvpl-dev
