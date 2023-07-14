@@ -16,13 +16,11 @@ jobs:
     - name: build
       run: |
         sudo apt update && sudo apt install libfuse2
-        wget https://raw.githubusercontent.com/ivan-hc/Handbrake-appimage/main/handbrake-builder
-        chmod a+x ./handbrake-builder
-        sudo ./handbrake-builder
+        wget https://raw.githubusercontent.com/ivan-hc/Handbrake-appimage/main/handbrake-junest.sh
+        chmod a+x ./handbrake-junest.sh
+        sudo ./handbrake-junest.sh
         mkdir dist
-        BUILD=$(date +%Y%m%d)
-        VERSION=$(wget -q https://packages.debian.org/stable/amd64/handbrake/download -O - | grep ".deb" | head -1 | grep -o -P '(?<=handbrake_).*(?=_amd64)')
-        mv ./*AppImage dist/Handbrake-$VERSION-$BUILD-x86_64.AppImage
+        mv ./*AppImage dist/
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
