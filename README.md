@@ -1,4 +1,6 @@
-This repository provides the script to create and install Handbrake built from from Debian Stable.
+This repository creates and distributes the unofficial Appimage of Handbrake.
+
+From here you can download the scripts to build from Debian and on top of [JuNest](https://github.com/fsquillace/junest), the lightweight Arch Linux based distro that runs, without root privileges, on top of any other Linux distro.
 
 # How to integrate Handbrake AppImage into the system
 The easier way is to install "AM" on your PC, see [ivan-hc/AM-application-manager](https://github.com/ivan-hc/AM-application-manager) for more.
