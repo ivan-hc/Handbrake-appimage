@@ -51,12 +51,3 @@ jobs:
             files: |
               Handbrake-x86_64.AppImage
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-          uses: marvinpinto/action-automatic-releases@latest
-          with:
-            title: Continuous build
-            automatic_release_tag: continuous
-            prerelease: false
-            draft: false
-            files: |
-              Handbrake-x86_64.AppImage
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
