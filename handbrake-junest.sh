@@ -97,8 +97,11 @@ export UNION_PRELOAD=$HERE
 export JUNEST_HOME=$HERE/.junest
 export PATH=$PATH:$HERE/.local/share/junest/bin
 mkdir -p $HOME/.cache
+if test -f /etc/resolv.conf; then
+	ETC_RESOLV=' --bind /etc/resolv.conf /etc/resolv.conf ' # NEEDED TO CONNECT THE INTERNET
+fi
 EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2- | sed -e 's|%.||g')
-$HERE/.local/share/junest/bin/junest -n 2> /dev/null -- $EXEC "$@"
+$HERE/.local/share/junest/bin/junest -n -b "$ETC_RESOLV" 2> /dev/null -- $EXEC "$@"
 EOF
 chmod a+x ./AppRun
 
@@ -158,6 +161,7 @@ for arg in $DEPS4; do
 done
 
 # REMOVE SOME BLOATWARES
+echo Y | rm -R .f ./$APP.AppDir/.cache/yay/*
 find ./$APP.AppDir/.junest/usr/share/doc/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL DOCUMENTATION NOT RELATED TO THE APP
 find ./$APP.AppDir/.junest/usr/share/locale/*/*/* -not -iname "*$BIN*" -a -not -name "." -delete #REMOVE ALL ADDITIONAL LOCALE FILES
 rm -R -f ./$APP.AppDir/.junest/etc/makepkg.conf
@@ -196,7 +200,6 @@ _savebins(){
 	done
 	mv ./$APP.AppDir/.junest/usr/bin/* ./junest-backups/usr/bin/
 	mv ./save/* ./$APP.AppDir/.junest/usr/bin/
- 	rsync -av ./base/usr/bin/* ./$APP.AppDir/.junest/usr/bin/
 	rmdir save
 }
 _savebins 2> /dev/null
@@ -271,7 +274,6 @@ _liblibs(){
 _mvlibs(){
 	mv ./$APP.AppDir/.junest/usr/lib/* ./junest-backups/usr/lib/
 	mv ./save/* ./$APP.AppDir/.junest/usr/lib/
- 	rsync -av ./base/usr/lib/* ./$APP.AppDir/.junest/usr/lib/
 }
 
 _binlibs 2> /dev/null
@@ -309,15 +311,17 @@ _saveshare(){
 	done
 	mv ./$APP.AppDir/.junest/usr/share/* ./junest-backups/usr/share/
 	mv ./save/* ./$APP.AppDir/.junest/usr/share/
- 	rsync -av ./base/usr/share/* ./$APP.AppDir/.junest/usr/share/
-	rmdir save
+ 	rmdir save
 }
 _saveshare 2> /dev/null
 
+# RSYNC THE CONTENT OF THE APP'S PACKAGE
+rm -R -f ./base/.*
+rsync -av ./base/* ./$APP.AppDir/.junest/
+
 # RSYNC DEPENDENCES
-#rsync -av ./deps/usr/bin/* ./$APP.AppDir/.junest/usr/bin/
-#rsync -av ./deps/usr/lib/* ./$APP.AppDir/.junest/usr/lib/
-#rsync -av ./deps/usr/share/* ./$APP.AppDir/.junest/usr/share/
+rm -R -f ./deps/.*
+#rsync -av ./deps/* ./$APP.AppDir/.junest/
 
 # ADDITIONAL REMOVALS
 #mv ./$APP.AppDir/.junest/usr/lib/libLLVM-* ./junest-backups/usr/lib/ #INCLUDED IN THE COMPILATION PHASE, CAN SOMETIMES BE EXCLUDED FOR DAILY USE
