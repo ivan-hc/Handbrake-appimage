@@ -8,7 +8,7 @@ DEPENDENCES="bzip2 desktop-file-utils ffmpeg gst-libav gst-plugin-gtk gst-plugin
 #COMPILERS="base-devel"
 
 # CREATE THE APPDIR (DON'T TOUCH THIS)...
-wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+wget -q $(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | grep -v zsync | grep -i continuous | grep -i appimagetool | grep -i x86_64 | grep browser_download_url | cut -d '"' -f 4 | head -1) -O appimagetool
 chmod a+x appimagetool
 mkdir $APP.AppDir
 
@@ -344,5 +344,5 @@ mkdir -p ./$APP.AppDir/.junest/usr/share/themes
 mkdir -p ./$APP.AppDir/.junest/run/user
 
 # CREATE THE APPIMAGE
-ARCH=x86_64 ./appimagetool -n ./$APP.AppDir
+ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir
 mv ./*AppImage ./"$(cat ./$APP.AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3.2-x86_64.AppImage
