@@ -354,7 +354,7 @@ lib_browser_launcher="gio-launch-desktop libdl.so libpthread.so librt.so libasou
 LIBSAVED="pk p11 alsa jack pipewire pulse libavahi-common liborc libavahi-client libunwind libgnutls \
 	libEGL.so liblcms libGLX.so libudev.so libwayland-cursor.so libgudev- libgbm.so libgallium- \
 	libwayland-server.so libxcb-randr.so libglapi.so libLLVM.so libxcb-dri libsensors.so libdrm_radeon.so \
-	libdrm_amdgpu.so libdrm_intel.so libedit.so libpciaccess.so $lib_browser_launcher" # Enter here keywords or file/directory names to save in /usr/lib
+	libdrm_amdgpu.so libdrm_intel.so libedit.so libpciaccess.so gdk-pixbuf librsvg libdav $lib_browser_launcher" # Enter here keywords or file/directory names to save in /usr/lib
 
 # Save files in /usr/bin
 function _savebins() {
