@@ -503,6 +503,7 @@ function _rsync_main_package() {
 function _rsync_dependences() {
 	rm -R -f ./deps/.*
 	rsync -av ./deps/* ./"$APP".AppDir/.junest/ | echo "◆ Rsync all dependeces, please wait..."
+	#rsync -av ./deps/usr/lib/*.so* ./"$APP".AppDir/.junest/usr/lib/ | echo "◆ Rsync all libraries, please wait..."
 	echo "-----------------------------------------------------------"
 	echo ""
 }
@@ -512,6 +513,9 @@ function _remove_more_bloatwares() {
  	rm -R -f ./"$APP".AppDir/.junest/home # remove the inbuilt home
 	rm -R -f ./"$APP".AppDir/.junest/usr/lib/python*/__pycache__/* # if python is installed, removing this directory can save several megabytes
 	#rm -R -f ./"$APP".AppDir/.junest/usr/lib/libLLVM-* # included in the compilation phase, can sometimes be excluded for daily use
+	rm -R -f ./"$APP".AppDir/.junest/usr/share/ibus/dicts/emoji*
+	rm -R -f ./"$APP".AppDir/.junest/usr/share/gir-*
+	rm -R -f ./"$APP".AppDir/.junest/usr/share/man
 }
 
 function _enable_mountpoints_for_the_inbuilt_bubblewrap() {
@@ -529,6 +533,8 @@ function _enable_mountpoints_for_the_inbuilt_bubblewrap() {
 _rsync_main_package
 _rsync_dependences
 _remove_more_bloatwares
+strip --strip-debug ./$APP.AppDir/.junest/usr/lib/*
+strip --strip-unneeded ./$APP.AppDir/.junest/usr/bin/*
 _enable_mountpoints_for_the_inbuilt_bubblewrap
 
 # CREATE THE APPIMAGE
@@ -536,4 +542,4 @@ if test -f ./*.AppImage; then
 	rm -R -f ./*archimage*.AppImage
 fi
 ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP.AppDir
-mv ./*AppImage ./"$(cat ./"$APP".AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3.4.4-2-x86_64.AppImage
+mv ./*AppImage ./"$(cat ./"$APP".AppDir/*.desktop | grep 'Name=' | head -1 | cut -c 6- | sed 's/ /-/g')"_"$VERSION"-archimage3.4.4-2.1-x86_64.AppImage
