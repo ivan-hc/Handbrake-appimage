@@ -2,21 +2,23 @@
 
 APP=handbrake
 BIN="ghb" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="ibus libibus libglvnd slang libsndfile libbs2b gstreamer-meta" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
-BASICSTUFF="binutils debugedit gzip"
-COMPILERS="base-devel"
+gstreamer_meta="gst-libav gst-plugins-bad gst-plugins-base gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi"
+DEPENDENCES="ibus libibus libglvnd slang libsndfile libbs2b mesa $gstreamer_meta" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
+#BASICSTUFF="binutils debugedit gzip"
+#COMPILERS="base-devel"
 
 #############################################################################
 #	KEYWORDS TO FIND AND SAVE WHEN COMPILING THE APPIMAGE
 #############################################################################
 
 BINSAVED="SAVEBINSPLEASE"
-SHARESAVED="SAVESHAREPLEASE"
+SHARESAVED="gstreamer"
 lib_audio_keywords="alsa jack pipewire pulse"
 lib_browser_launcher="gio-launch-desktop libasound.so libatk-bridge libatspi libcloudproviders libdb- libdl.so libedit libepoxy libgtk-3.so.0 libjson-glib libnssutil libpthread.so librt.so libtinysparql libwayland-cursor libX11-xcb.so libxapp-gtk3-module.so libXcursor libXdamage libXi.so libxkbfile.so libXrandr p11 pk"
 LIBSAVED="gdk-pixbuf libavahi libexpat.so libGLdispatch libEGL libGLX libgstplay libidn liblcms libLLVM libsensors.so libSPIRV \
-libxcb-randr libxcb-sync libxshmfence.so \
-libslang libsndfile libbs $lib_audio_keywords $lib_browser_launcher"
+libxcb-randr libxcb-sync libxshmfence.so libslang libsndfile libbs \
+libgstisoff libsoxr libgupnp libnss libportaudio libserd libxkbcommon libIlmThread libsharpyuv libnghttp libraptor libsonic \
+libjxl libssh libpcaudio libinstpatch libfftw libsord libOpenEXRCore libshaderc libsratom libglslang-default-resource-limits libdovi $lib_audio_keywords $lib_browser_launcher"
 
 [ -n "$lib_browser_launcher" ] && DEPENDENCES="$DEPENDENCES xapp hicolor-icon-theme"
 
@@ -81,7 +83,7 @@ _install_junest() {
 	rm -f junest-x86_64.tar.gz
 	echo " Apply patches to PacMan..."
 	#_enable_multilib
-	_enable_chaoticaur
+	#_enable_chaoticaur
 	_custom_mirrorlist
 	_bypass_signature_check_level
 
@@ -282,7 +284,7 @@ chmod a+x "$APP".AppDir/AppRun
 #	EXTRACT PACKAGES
 #############################################################################
 
-[ -z "$extraction_count" ] && extraction_count=1
+[ -z "$extraction_count" ] && extraction_count=0
 [ ! -f ./autodeps ] && echo "$extraction_count" > ./autodeps
 [ -f ./autodeps ] && autodeps=$(cat ./autodeps)
 [ "$autodeps" != "$extraction_count" ] && rm -Rf ./deps ./packages && echo "$extraction_count" > ./autodeps
