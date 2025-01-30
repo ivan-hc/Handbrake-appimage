@@ -2,9 +2,9 @@
 
 APP=handbrake
 BIN="ghb" #CHANGE THIS IF THE NAME OF THE BINARY IS DIFFERENT FROM "$APP" (for example, the binary of "obs-studio" is "obs")
-DEPENDENCES="ibus libibus libglvnd" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
-#BASICSTUFF="binutils debugedit gzip"
-#COMPILERS="base-devel"
+DEPENDENCES="ibus libibus libglvnd slang libsndfile libbs2b gstreamer-meta" #SYNTAX: "APP1 APP2 APP3 APP4...", LEAVE BLANK IF NO OTHER DEPENDENCIES ARE NEEDED
+BASICSTUFF="binutils debugedit gzip"
+COMPILERS="base-devel"
 
 #############################################################################
 #	KEYWORDS TO FIND AND SAVE WHEN COMPILING THE APPIMAGE
@@ -15,7 +15,8 @@ SHARESAVED="SAVESHAREPLEASE"
 lib_audio_keywords="alsa jack pipewire pulse"
 lib_browser_launcher="gio-launch-desktop libasound.so libatk-bridge libatspi libcloudproviders libdb- libdl.so libedit libepoxy libgtk-3.so.0 libjson-glib libnssutil libpthread.so librt.so libtinysparql libwayland-cursor libX11-xcb.so libxapp-gtk3-module.so libXcursor libXdamage libXi.so libxkbfile.so libXrandr p11 pk"
 LIBSAVED="gdk-pixbuf libavahi libexpat.so libGLdispatch libEGL libGLX libgstplay libidn liblcms libLLVM libsensors.so libSPIRV \
-libxcb-randr libxcb-sync libxshmfence.so $lib_audio_keywords $lib_browser_launcher"
+libxcb-randr libxcb-sync libxshmfence.so \
+libslang libsndfile libbs $lib_audio_keywords $lib_browser_launcher"
 
 [ -n "$lib_browser_launcher" ] && DEPENDENCES="$DEPENDENCES xapp hicolor-icon-theme"
 
@@ -80,7 +81,7 @@ _install_junest() {
 	rm -f junest-x86_64.tar.gz
 	echo " Apply patches to PacMan..."
 	#_enable_multilib
-	#_enable_chaoticaur
+	_enable_chaoticaur
 	_custom_mirrorlist
 	_bypass_signature_check_level
 
@@ -107,10 +108,11 @@ fi
 ./.local/share/junest/bin/junest -- yay -Syy
 #./.local/share/junest/bin/junest -- gpg --keyserver keyserver.ubuntu.com --recv-key C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF # UNCOMMENT IF YOU USE THE AUR
 if [ -n "$BASICSTUFF" ]; then
-	./.local/share/junest/bin/junest -- yay --noconfirm -S "$BASICSTUFF"
+	./.local/share/junest/bin/junest -- yay --noconfirm -S $BASICSTUFF
 fi
 if [ -n "$COMPILERS" ]; then
-	./.local/share/junest/bin/junest -- yay --noconfirm -S "$COMPILERS"
+	./.local/share/junest/bin/junest -- yay --noconfirm -S $COMPILERS
+	./.local/share/junest/bin/junest -- yay --noconfirm -S python
 fi
 if [ -n "$DEPENDENCES" ]; then
 	./.local/share/junest/bin/junest -- yay --noconfirm -S $DEPENDENCES
