@@ -21,7 +21,7 @@ ETC_REMOVED="makepkg.conf pacman"
 BIN_REMOVED="gcc"
 LIB_REMOVED="gcc"
 PYTHON_REMOVED="__pycache__/"
-SHARE_REMOVED="gcc icons/AdwaitaLegacy icons/Adwaita/cursors/ terminfo"
+SHARE_REMOVED="gcc icons/AdwaitaLegacy icons/Adwaita/cursors/ terminfo ibus"
 
 # Set mountpoints, they are ment to be set into the AppRun.
 # Default mounted files are /etc/resolv.conf, /etc/hosts, /etc/nsswitch.conf, /etc/passwd, /etc/group, /etc/machine-id, /etc/asound.conf and /etc/localtime
