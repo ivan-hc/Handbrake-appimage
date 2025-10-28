@@ -44,7 +44,7 @@ _post_installation_processes() {
 # Download archimage-builder.sh
 if [ ! -f ./archimage-builder.sh ]; then
 	ARCHIMAGE_BUILDER="https://raw.githubusercontent.com/ivan-hc/ArchImage/refs/heads/main/core/archimage-builder.sh"
-	wget --retry-connrefused --tries=30 "$ARCHIMAGE_BUILDER" -O ./archimage-builder.sh || exit 0; sed -i 's/gtk4//g' ./archimage-builder.sh
+	wget --retry-connrefused --tries=30 "$ARCHIMAGE_BUILDER" -O ./archimage-builder.sh || exit 0
 fi
 
 # Create and enter the AppDir
